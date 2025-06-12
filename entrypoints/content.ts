@@ -4,7 +4,7 @@ export default defineContentScript({
     console.log('Claude to Obsidian: Content script loaded');
 
     // Listen for messages from the popup
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    chrome.runtime.onMessage.addListener((request: any, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
       if (request.action === 'getPageInfo') {
         const pageInfo = getPageInfo();
         sendResponse(pageInfo);
