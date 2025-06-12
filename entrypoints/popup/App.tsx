@@ -21,9 +21,9 @@ function App() {
 
   useEffect(() => {
     // Get page info when popup opens
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
       if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'getPageInfo' }, (response) => {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'getPageInfo' }, (response: any) => {
           if (chrome.runtime.lastError) {
             setError('Claude to Obsidian extension is not active on this page.');
           } else {
@@ -62,12 +62,12 @@ function App() {
 
     try {
       // Get conversation data
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
         if (tabs[0]?.id) {
           chrome.tabs.sendMessage(
             tabs[0].id,
             { action: 'getConversationData' },
-            async (response) => {
+            async (response: any) => {
               if (chrome.runtime.lastError) {
                 setError(`Failed to get conversation data: ${chrome.runtime.lastError.message}`);
                 setIsLoading(false);
