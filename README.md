@@ -1,7 +1,7 @@
 # Claude to Obsidian
 
-[![Release](https://github.com/r74/claude-to-obsidian/actions/workflows/release.yml/badge.svg)](https://github.com/r74/claude-to-obsidian/actions/workflows/release.yml)
-[![Build Check](https://github.com/r74/claude-to-obsidian/actions/workflows/build-check.yml/badge.svg)](https://github.com/r74/claude-to-obsidian/actions/workflows/build-check.yml)
+[![Release](https://github.com/r74tech/claude-to-obsidian/actions/workflows/release.yml/badge.svg)](https://github.com/r74tech/claude-to-obsidian/actions/workflows/release.yml)
+[![Build Check](https://github.com/r74tech/claude-to-obsidian/actions/workflows/build-check.yml/badge.svg)](https://github.com/r74tech/claude-to-obsidian/actions/workflows/build-check.yml)
 
 Export your Claude.ai conversations to Markdown and Obsidian format with a single click!
 
@@ -21,7 +21,7 @@ Export your Claude.ai conversations to Markdown and Obsidian format with a singl
 
 ### From Release (Recommended)
 
-1. Go to the [Releases](https://github.com/r74/claude-to-obsidian/releases) page
+1. Go to the [Releases](https://github.com/r74tech/claude-to-obsidian/releases) page
 2. Download the appropriate zip file for your browser
 3. Follow the installation instructions in the release notes
 
@@ -29,7 +29,7 @@ Export your Claude.ai conversations to Markdown and Obsidian format with a singl
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/r74/claude-to-obsidian.git
+   git clone https://github.com/r74tech/claude-to-obsidian.git
    cd claude-to-obsidian
    ```
 
