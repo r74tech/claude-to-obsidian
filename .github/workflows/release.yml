@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build extensions
+        run: |
+          pnpm build
+          pnpm build:firefox
+      
+      - name: Create zip files
+        run: |
+          pnpm zip
+          pnpm zip:firefox
+      
+      - name: Get version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: List generated files
+        run: |
+          echo "Generated files:"
+          ls -la .output/
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          name: Claude to Obsidian ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            .output/*-chrome.zip
+            .output/*-firefox.zip
+          body: |
+            ## 🎉 Claude to Obsidian ${{ steps.get_version.outputs.version }}
+            
+            Export your Claude.ai conversations to Markdown and Obsidian format!
+            
+            ### 📦 Installation
+            
+            #### Chrome/Edge/Brave
+            1. Download `claude-to-obsidian-*-chrome.zip`
+            2. Extract the zip file
+            3. Open Chrome Extensions page (`chrome://extensions/`)
+            4. Enable "Developer mode"
+            5. Click "Load unpacked" and select the extracted folder
+            
+            #### Firefox
+            1. Download `claude-to-obsidian-*-firefox.zip`
+            2. Open Firefox Add-ons page (`about:addons`)
+            3. Click the gear icon → "Debug Add-ons"
+            4. Click "Load Temporary Add-on"
+            5. Select the zip file
+            
+            ### ✨ Features
+            - Export Claude conversations to Markdown or Obsidian format
+            - Include/exclude thinking blocks, tool usage, and metadata
+            - Save conversation history with automatic updates
+            - One-click copy to clipboard or download as file
+            - Direct links back to original Claude conversations
+            
+            ### 📝 Changelog
+            See below for automatically generated release notes.
