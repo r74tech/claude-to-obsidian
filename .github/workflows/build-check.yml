@@ -1,0 +1,52 @@
+name: Build Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Type check
+        run: pnpm compile
+      
+      - name: Build for ${{ matrix.browser }}
+        run: |
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            pnpm build
+          else
+            pnpm build:firefox
+          fi
+      
+      - name: Check if build succeeded
+        run: |
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            test -d .output/chrome-mv3
+          else
+            test -d .output/firefox-mv2
+          fi
